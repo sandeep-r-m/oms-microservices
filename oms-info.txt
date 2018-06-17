@@ -1,0 +1,32 @@
+http://localhost:8080/products
+
+GET /products
+GET /products/{product-id}
+
+GET /prices
+GET /prices/{product-id}
+
+GET /inventories
+GET /inventories/{product-id}
+
+GET  /orders
+POST /orders
+GET  /orders/{order-id}
+
+
+With API Gateway:
+
+With property : zuul.routes.{service-id}.strip-prefix=false
+
+GET /api/products
+GET /api/products/{product-id}
+
+GET /api/prices
+GET /api/prices/{product-id}
+
+GET /api/inventories
+GET /api/inventories/{product-id}
+
+GET  /api/orders
+POST /api/orders
+GET  /api/orders/{order-id}
