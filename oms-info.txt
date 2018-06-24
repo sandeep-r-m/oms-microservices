@@ -30,3 +30,17 @@ GET /api/inventories/{product-id}
 GET  /api/orders
 POST /api/orders
 GET  /api/orders/{order-id}
+
+
+…or create a new repository on the command line
+echo "# oms-microservices" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/sandeep-r-m/oms-microservices.git
+git push -u origin master
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/sandeep-r-m/oms-microservices.git
+git push -u origin master
+
