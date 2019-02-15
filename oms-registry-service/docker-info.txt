@@ -1,0 +1,21 @@
+docker ps — Lists running containers
+docker build — The docker build command builds Docker images from a Dockerfile
+docker run — Run a docker container based on an image
+docker rm — Removes one or more containers.
+docker rmi — Removes one or more images
+docker stop — Stops one or more containers.
+docker kill $(docker ps -q) :: kill all running containers 
+docker rm $(docker ps -a -q) :: delete all stopped containers 
+docker rmi $(docker images -q) :: delete all images 
+
+# Create JAR
+mvn clean install -DskipTests=true
+
+# Build Docker Image
+docker build --no-cache -f Dockerfile-oms-registry-service -t oms-registry-service:latest --rm .
+
+# See image list
+docker image ls
+
+# Run Docker Image
+docker run -p 9000:9000 oms-registry-service:latest
