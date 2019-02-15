@@ -1,17 +1,15 @@
 package com.sandeeprm.oms.orderservice.controllers.feignclients;
 
-import java.math.BigDecimal;
-
 import org.springframework.stereotype.Component;
 
-import com.sandeeprm.oms.orderservice.entities.ProductPrice;
+import com.sandeeprm.oms.orderservice.controllers.resources.ProductPriceResource;
 
 @Component
 public class PricingServiceFallback implements PricingServiceClient {
 
 	@Override
-	public ProductPrice getPriceByProductId(Long productId) {
-		return new ProductPrice(productId, new BigDecimal(99999.99F));
+	public ProductPriceResource getPriceByProductId(Long productId) {
+		return null;
 	}
 
 }

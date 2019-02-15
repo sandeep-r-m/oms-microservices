@@ -1,28 +1,18 @@
 package com.sandeeprm.oms.pricingservice.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.sandeeprm.oms.pricingservice.repositories.domain.ProductPrice;
+import com.sandeeprm.oms.pricingservice.services.exceptions.ProductPriceServiceException;
 
-import com.sandeeprm.oms.pricingservice.domain.ProductPrice;
-import com.sandeeprm.oms.pricingservice.repositories.PricingRepository;
+public interface PricingService {
 
-@Service
-public class PricingService {
+	public ProductPrice fetchProductPriceByProductId(Long productId) throws ProductPriceServiceException;
 
-	@Autowired
-	private PricingRepository pricingRepository;
+	public List<ProductPrice> fetchAllProductsPrice() throws ProductPriceServiceException;
 
-	public Optional<ProductPrice> getPriceByProductId(Long id) {
-		Optional<ProductPrice> opp = pricingRepository.getPriceByProductId(id);
-		return opp;
-	}
+	public ProductPrice saveProductPrice(ProductPrice price) throws ProductPriceServiceException;
 
-	public List<ProductPrice> getProductsPrice() {
-		List<ProductPrice> productsPrice = pricingRepository.getProductsPrice();
-		return productsPrice;
-	}
+	public void deleteProductPrice(long productId) throws ProductPriceServiceException;
 
 }

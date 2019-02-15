@@ -4,12 +4,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.sandeeprm.oms.orderservice.entities.ProductPrice;
+import com.sandeeprm.oms.orderservice.controllers.resources.ProductPriceResource;
 
 @FeignClient(value = "oms-pricing-service", fallback = PricingServiceFallback.class)
 public interface PricingServiceClient {
 
-	@GetMapping(value = "/prices/{product-id}")
-	public ProductPrice getPriceByProductId(@PathVariable("product-id") Long productId);
+	@GetMapping(value = "/prices/{productId}")
+	public ProductPriceResource getPriceByProductId(@PathVariable("productId") Long productId);
 
 }

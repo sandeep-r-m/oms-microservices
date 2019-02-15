@@ -1,31 +1,17 @@
 package com.sandeeprm.oms.catalogservice.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.sandeeprm.oms.catalogservice.repositories.domain.Product;
+import com.sandeeprm.oms.catalogservice.services.exceptions.ProductCatalogServiceException;
 
-import com.sandeeprm.oms.catalogservice.entities.Product;
-import com.sandeeprm.oms.catalogservice.repositories.ProductCatalogRepository;
+public interface ProductCatalogService {
 
-@Service
-public class ProductCatalogService {
+	public List<Product> fetchAllProducts() throws ProductCatalogServiceException;
 
-	@Autowired
-	private ProductCatalogRepository productCatalogRepository;
+	public Product fetchProductById(long productId) throws ProductCatalogServiceException;
 
-	public Optional<Product> getProductById(Long id) {
-		if (null == id) {
-			throw new IllegalArgumentException("product-id is invalid");
-		}
-		Optional<Product> product = productCatalogRepository.getProductById(id);
-		return product;
-	}
+	public Product saveProduct(Product product) throws ProductCatalogServiceException;
 
-	public List<Product> getProducts() {
-		List<Product> productList = productCatalogRepository.getProducts();
-		return productList;
-	}
-
+	public void deleteProductById(long productId) throws ProductCatalogServiceException;
 }

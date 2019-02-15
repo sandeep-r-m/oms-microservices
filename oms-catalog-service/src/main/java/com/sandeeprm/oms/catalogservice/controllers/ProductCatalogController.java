@@ -1,46 +1,70 @@
 package com.sandeeprm.oms.catalogservice.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sandeeprm.oms.catalogservice.entities.Product;
+import com.sandeeprm.oms.catalogservice.controllers.common.DomainToResourceMapper;
+import com.sandeeprm.oms.catalogservice.controllers.common.ResourceToDomainMapper;
+import com.sandeeprm.oms.catalogservice.controllers.resources.ProductResource;
+import com.sandeeprm.oms.catalogservice.repositories.domain.Product;
 import com.sandeeprm.oms.catalogservice.services.ProductCatalogService;
 
 @RestController
-@RequestMapping(value = "/products")
+@RequestMapping(value = "/products", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class ProductCatalogController {
 
 	@Autowired
 	private ProductCatalogService productCatalogService;
 
 	@GetMapping
-	public ResponseEntity<List<Product>> all() {
+	public ResponseEntity<List<ProductResource>> fetchAllProducts() {
 
-		List<Product> products = productCatalogService.getProducts();
+		List<Product> fetchedProducts = productCatalogService.fetchAllProducts();
 
-		if (products.size() <= 0)
-			return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
+		List<ProductResource> productResources = DomainToResourceMapper.map(fetchedProducts);
 
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		return new ResponseEntity<>(productResources, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+	@GetMapping(path = "/{productId}")
+	public ResponseEntity<ProductResource> fetchProductById(@PathVariable("productId") long productId) {
 
-		Optional<Product> product = productCatalogService.getProductById(id);
+		Product fetchedProduct = productCatalogService.fetchProductById(productId);
 
-		if (!product.isPresent())
-			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+		ProductResource productResource = DomainToResourceMapper.map(fetchedProduct);
 
-		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
+		return new ResponseEntity<>(productResource, HttpStatus.OK);
+	}
+
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ProductResource> saveProduct(@RequestBody ProductResource productResource) {
+
+		Product product = ResourceToDomainMapper.map(productResource);
+
+		product = productCatalogService.saveProduct(product);
+
+		ProductResource savedProductResource = DomainToResourceMapper.map(product);
+
+		return new ResponseEntity<>(savedProductResource, HttpStatus.OK);
+	}
+
+	@DeleteMapping(path = "/{productId}")
+	public ResponseEntity<ProductResource> deleteProduct(@PathVariable("productId") long productId) {
+
+		productCatalogService.deleteProductById(productId);
+
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

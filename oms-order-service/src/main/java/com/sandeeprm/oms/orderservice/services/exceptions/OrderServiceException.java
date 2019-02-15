@@ -1,6 +1,6 @@
 package com.sandeeprm.oms.orderservice.services.exceptions;
 
-public class OrderServiceException extends Exception {
+public class OrderServiceException extends RuntimeException {
 
 	/**
 	 * 
@@ -9,7 +9,6 @@ public class OrderServiceException extends Exception {
 
 	public OrderServiceException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public OrderServiceException(String message, Throwable cause, boolean enableSuppression,
@@ -27,6 +26,10 @@ public class OrderServiceException extends Exception {
 
 	public OrderServiceException(Throwable cause) {
 		super(cause);
+	}
+
+	public static OrderServiceException create(String message) {
+		return new OrderServiceException(message);
 	}
 
 }

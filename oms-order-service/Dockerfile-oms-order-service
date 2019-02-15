@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+COPY target/oms-order-service-0.0.1-SNAPSHOT.jar /opt/lib/
+# ENTRYPOINT ["/usr/bin/java"]
+# ENTRYPOINT ["/opt/java/openjdk/"]
+CMD ["echo","$JAVA_HOME"]
+CMD ["java","-version"]
+CMD ["java","-jar","/opt/lib/oms-order-service-0.0.1-SNAPSHOT.jar"]
+EXPOSE 9400
